@@ -1,0 +1,18 @@
+body {
+    margin: 40px;
+}
+
+.container {    
+    width: 960px;
+    height: 960px;
+    background-color: blue;
+    display: grid;
+    /* grid-template-columns: repeat(auto-fill, auto-fit);
+    grid-template-rows: repeat(auto-fill, auto-fit);
+    */
+    grid-gap: 2px;
+}
+
+.grid-item {
+    background-color: aqua;
+}
