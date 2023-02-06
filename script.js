@@ -1,6 +1,11 @@
 let container = document.querySelector(".container");
 let userOption = 16;
 let mainGrid = "";
+let updateColorCount = 0;
+let r = 0;
+let g = 0;
+let b = 0;
+let defaultColor = "rgb(0, 0, 0)";
 
 let buttons = document.querySelectorAll(".controls button");
 buttons.forEach(button => {
@@ -20,24 +25,52 @@ function setUserOption(id) {
         generateGrid(64);
     } else {
         clearGrid();
-    }
-    //generateGrid(userOption);
+    }    
 };
 
 function getCurrentGrid() {
     mainGrid = document.querySelectorAll('.grid-item');
     mainGrid.forEach(gridElement => {
         gridElement.addEventListener("mouseover", (e) => {
-            e.target.style.backgroundColor = "black";
+            if (updateColorCount == 10) {
+                defaultColor = "rgb(0, 0, 0)";                
+                updateColorCount = 0;
+            }
+            if (updateColorCount == 0) {                
+                e.target.style.backgroundColor = defaultColor; 
+                defaultColor = randomRgbColor();                
+            }
+            if (updateColorCount > 0 && updateColorCount < 10) {
+                r = r - (r* 0.10);
+                g = g - (g * 0.10);
+                b = b - (b * 0.10);
+                defaultColor = `rgb(${r}, ${g}, ${b})`;
+                e.target.style.backgroundColor = defaultColor;                
+            }
+            updateColorCount++;                 
         });
     });
     return mainGrid.length;
 }
 
-function clearGrid() {
+function clearGrid() {    
+    if (getCurrentGrid() == 0 ) {
+        return;
+    }
     mainGrid.forEach(element => {
         container.removeChild(element);    
     });    
+}
+
+function randomInteger(max) {
+    return Math.floor(Math.random() * (max+1));
+}
+
+function randomRgbColor() {
+    r = randomInteger(255);
+    g = randomInteger(255);
+    b = randomInteger(255);
+    return `rgb(${r}, ${g}, ${b})`
 }
 
 function generateGrid(option) {
