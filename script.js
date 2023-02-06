@@ -1,7 +1,6 @@
 let container = document.querySelector(".container");
-let totalColumns = 64;
-let totalRows = 64;
-let userOption = 0;
+let userOption = 16;
+let mainGrid = "";
 
 let buttons = document.querySelectorAll(".controls button");
 buttons.forEach(button => {
@@ -11,17 +10,40 @@ buttons.forEach(button => {
 });
 
 function setUserOption(id) {
-    if(id == 1){
-        userOption = 16;
+    if(id == 1){                
+        generateGrid(16);
     } else if(id == 2) {
-        userOption = 32;
+        //userOption = 32;
+        generateGrid(32);
+    } else if (id == 3) {
+        //userOption = 64;
+        generateGrid(64);
     } else {
-        userOption = 64;
+        clearGrid();
     }
-    generateGrid(userOption);
+    //generateGrid(userOption);
 };
 
+function getCurrentGrid() {
+    mainGrid = document.querySelectorAll('.grid-item');
+    mainGrid.forEach(gridElement => {
+        gridElement.addEventListener("mouseover", (e) => {
+            e.target.style.backgroundColor = "black";
+        });
+    });
+    return mainGrid.length;
+}
+
+function clearGrid() {
+    mainGrid.forEach(element => {
+        container.removeChild(element);    
+    });    
+}
+
 function generateGrid(option) {
+    if (getCurrentGrid() > 0) {
+        clearGrid();
+    }    
     let pxSize = 960 / option;
     let pxColumns = "";    
     container.style.display = 'grid';
@@ -31,14 +53,14 @@ function generateGrid(option) {
         pxColumns = pxColumns + " " + pxSize + "px";
         for (let index = 0; index < option; index++) {        
             let gridItem = document.createElement("div");
-            gridItem.style.backgroundColor = "white";
-            gridItem.textContent = " ";
+            gridItem.classList.add('grid-item');                        
             container.appendChild(gridItem);        
         }        
     }
     // set the template columns and rows
     container.style.gridTemplateColumns = `${pxColumns}`;    
     container.style.gridTemplateRows = `${pxColumns}`;
+    getCurrentGrid();
 }
 
-generateGrid(totalColumns, totalRows);
+generateGrid(userOption);
