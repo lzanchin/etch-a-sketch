@@ -6,6 +6,8 @@ let r = 0;
 let g = 0;
 let b = 0;
 let defaultColor = "rgb(0, 0, 0)";
+let slider = document.getElementById("rangeSizes");
+let rangeLabel = document.getElementById("selectedValue");
 
 let buttons = document.querySelectorAll(".controls button");
 buttons.forEach(button => {
@@ -14,14 +16,21 @@ buttons.forEach(button => {
     });   
 });
 
+slider.oninput = function() {
+    setUserOptionSlider(this.value);
+  }
+
+function setUserOptionSlider(value) {
+    rangeLabel.innerHTML = `${value} x ${value}`;
+    generateGrid(value);
+}
+
 function setUserOption(id) {
     if(id == 1){                
         generateGrid(16);
-    } else if(id == 2) {
-        //userOption = 32;
+    } else if(id == 2) {        
         generateGrid(32);
-    } else if (id == 3) {
-        //userOption = 64;
+    } else if (id == 3) {        
         generateGrid(64);
     } else {
         clearGrid();
@@ -96,4 +105,4 @@ function generateGrid(option) {
     getCurrentGrid();
 }
 
-generateGrid(userOption);
+setUserOptionSlider(36);
